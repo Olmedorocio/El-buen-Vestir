@@ -19,7 +19,7 @@ class BarrioDao:
             barrios = cur.fetchall() # trae datos de la bd
 
             # Transformar los datos en una lista de diccionarios
-            return [{'idbarrio': barrio[0],'bar_nombre': barrio[1],'idciudad': barrio[2], 'ciu_nombre': barrio[3],'dep_nombre': barrio[4],'pai_nombre': barrio[5]} for barrio in barrios]
+            return [{'idbarrio': barrio[0],'bar_nombre': barrio[1],'idbarrio': barrio[2], 'ciu_nombre': barrio[3],'dep_nombre': barrio[4],'pai_nombre': barrio[5]} for barrio in barrios]
 
         except Exception as e:
             app.logger.error(f"Error al obtener todas las barrios: {str(e)}")
@@ -60,10 +60,10 @@ class BarrioDao:
             cur.close()
             con.close()
 
-    def guardarBarrio(self, descripcion,ciudad_id):
+    def guardarBarrio(self, descripcion,barrio_id):
 
         insertBarrioSQL = """
-        INSERT INTO barrios(bar_nombre,idciudad) VALUES(%s,%s) RETURNING idbarrio
+        INSERT INTO barrios(bar_nombre,idbarrio) VALUES(%s,%s) RETURNING idbarrio
         """
 
         conexion = Conexion()
@@ -72,7 +72,7 @@ class BarrioDao:
 
         # Ejecucion exitosa
         try:
-            cur.execute(insertBarrioSQL, (descripcion,ciudad_id))
+            cur.execute(insertBarrioSQL, (descripcion,barrio_id))
             barrio_id = cur.fetchone()[0]
             con.commit() # se confirma la insercion
             return barrio_id
@@ -88,7 +88,7 @@ class BarrioDao:
             cur.close()
             con.close()
 
-    def updateBarrio(self, id, descripcion,ciudad_id):
+    def updateBarrio(self, id, descripcion,barrio_id):
 
         updateBarrioSQL = """
         UPDATE barrios
@@ -102,7 +102,7 @@ class BarrioDao:
         cur = con.cursor()
 
         try:
-            cur.execute(updateBarrioSQL, (descripcion,ciudad_id, id,))
+            cur.execute(updateBarrioSQL, (descripcion,barrio_id, id,))
             filas_afectadas = cur.rowcount # Obtener el número de filas afectadas
             con.commit()
 

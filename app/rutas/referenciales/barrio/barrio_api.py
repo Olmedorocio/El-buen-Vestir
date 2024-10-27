@@ -40,7 +40,7 @@ def getBarrio(barrio_id):
         else:
             return jsonify({
                 'success': False,
-                'error': 'No se encontró elbarrio con el ID proporcionado.'
+                'error': 'No se encontró el barrio con el ID proporcionado.'
             }), 404
 
     except Exception as e:
@@ -57,7 +57,7 @@ def addBarrio():
     bardao = BarrioDao()
 
     # Validar que el JSON no esté vacío y tenga las propiedades necesarias
-    campos_requeridos = ['descripcion','ciudad']
+    campos_requeridos = ['descripcion','barrio']
 
     # Verificar si faltan campos o son vacíos
     for campo in campos_requeridos:
@@ -69,12 +69,12 @@ def addBarrio():
 
     try:
         descripcion = data['descripcion'].upper()
-        ciudad_id = data['ciudad']
-        barrio_id = bardao.guardarBarrio(descripcion,ciudad_id)
+        barrio_id = data['barrio']
+        barrio_id = bardao.guardarBarrio(descripcion,barrio_id)
         if barrio_id is not None:
             return jsonify({
                 'success': True,
-                'data': {'id': barrio_id, 'descripcion': descripcion, 'ciudad': ciudad_id},
+                'data': {'id': barrio_id, 'descripcion': descripcion, 'barrio': barrio_id},
                 'error': None
             }), 201
         else:
@@ -92,7 +92,7 @@ def updateBarrio(barrio_id):
     bardao = BarrioDao()
 
     # Validar que el JSON no esté vacío y tenga las propiedades necesarias
-    campos_requeridos = ['descripcion','ciudad']
+    campos_requeridos = ['descripcion','barrio']
 
     # Verificar si faltan campos o son vacíos
     for campo in campos_requeridos:
@@ -102,12 +102,12 @@ def updateBarrio(barrio_id):
                             'error': f'El campo {campo} es obligatorio y no puede estar vacío.'
                             }), 400
     descripcion = data['descripcion']
-    ciudad_id = data['ciudad']
+    barrio_id = data['barrio']
     try:
-        if bardao.updateBarrio(barrio_id, descripcion.upper(),ciudad_id):
+        if bardao.updateBarrio(barrio_id, descripcion.upper(),barrio_id):
             return jsonify({
                 'success': True,
-                'data': {'id': barrio_id, 'descripcion': descripcion,'ciudad': ciudad_id},
+                'data': {'id': barrio_id, 'descripcion': descripcion,'barrio':  barrio_id},
                 'error': None
             }), 200
         else:

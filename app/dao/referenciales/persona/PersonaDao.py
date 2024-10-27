@@ -5,6 +5,7 @@ from app.conexion.Conexion import Conexion
 class PersonaDao:
 
     def getPersonas(self):
+        
         personaSQL = """
         SELECT p.idpersona, p.per_nombre, p.per_apellido, p.per_ci, p.per_fechanac, p.per_telefono, p.idbarrio, b.bar_nombre
         FROM personas p, barrios b where p.idbarrio = b.idbarrio 
